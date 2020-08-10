@@ -3,7 +3,7 @@ package org.example.vendingmachine;
 import org.example.vendingmachine.model.Coin;
 import org.example.vendingmachine.model.FinalCart;
 import org.example.vendingmachine.model.Item;
-import org.example.vendingmachine.repo.Inventory;
+import org.example.vendingmachine.repo.InventoryHelper;
 import org.example.vendingmachine.service.VendingMachineService;
 import org.example.vendingmachine.service.VendingMachineServiceImpl;
 import org.junit.jupiter.api.BeforeAll;
@@ -16,22 +16,22 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class VendingMachineTest {
     private static VendingMachineService vendingMachine;
-    private static Inventory<Coin> cashInventory = new Inventory<>();
-    private static Inventory<Item> itemInventory = new Inventory<>();
+    private static InventoryHelper<Coin> cashInventoryHelper = new InventoryHelper<>();
+    private static InventoryHelper<Item> itemInventoryHelper = new InventoryHelper<>();
 
     @BeforeAll
     public static void setUp() {
         initialSetUp();
-        vendingMachine = new VendingMachineServiceImpl(cashInventory, itemInventory);
+        vendingMachine = new VendingMachineServiceImpl(cashInventoryHelper, itemInventoryHelper);
     }
 
     static void initialSetUp(){
         for(Coin coin : Coin.values()){
-            cashInventory.put(coin, 5);
+            cashInventoryHelper.put(coin, 5);
         }
 
         for(Item item : Item.values()){
-            itemInventory.put(item, 5);
+            itemInventoryHelper.put(item, 5);
         }
 
     }

@@ -3,7 +3,7 @@ package org.example;
 import org.example.vendingmachine.model.Coin;
 import org.example.vendingmachine.model.FinalCart;
 import org.example.vendingmachine.model.Item;
-import org.example.vendingmachine.repo.Inventory;
+import org.example.vendingmachine.repo.InventoryHelper;
 import org.example.vendingmachine.service.VendingMachineService;
 import org.example.vendingmachine.service.VendingMachineServiceImpl;
 
@@ -13,15 +13,15 @@ import java.util.List;
  * Hello world!
  *
  */
-public class App {
-    private static Inventory<Coin> cashInventory = new Inventory<>();
-    private static Inventory<Item> itemInventory = new Inventory<>();
+public class AppVendingMachineSimulator {
+    private static InventoryHelper<Coin> cashInventoryHelper = new InventoryHelper<>();
+    private static InventoryHelper<Item> itemInventoryHelper = new InventoryHelper<>();
 
     public static void main( String[] args) {
         System.out.println( "Simulation for Vending Machine!" );
         initialSetUp();
 
-        VendingMachineService vendingMachine = new VendingMachineServiceImpl(cashInventory, itemInventory);
+        VendingMachineService vendingMachine = new VendingMachineServiceImpl(cashInventoryHelper, itemInventoryHelper);
         long paidAmount = vendingMachine.payAmount(Coin.DIME, Coin.NICKLE, Coin.CENT, Coin.DIME, Coin.NICKLE, Coin.CENT, Coin.QUARTER);
 
         FinalCart<Item, List<Coin>, String> buyItemWithChange = vendingMachine.buyItemAndCollectChange(Item.Cold_Drink, paidAmount);
@@ -38,11 +38,11 @@ public class App {
 
     static void initialSetUp(){
         for(Coin coin : Coin.values()){
-            cashInventory.put(coin, 5);
+            cashInventoryHelper.put(coin, 5);
         }
 
         for(Item item : Item.values()){
-            itemInventory.put(item, 5);
+            itemInventoryHelper.put(item, 5);
         }
 
     }
